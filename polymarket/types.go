@@ -163,3 +163,15 @@ type PostOrdersArgs struct {
 // SignedOrder 已签名的订单（包装go-order-utils的SignedOrder）
 type SignedOrder = model.SignedOrder
 
+// PostOrderResult 提交订单的结果，包含原始请求和响应
+type PostOrderResult struct {
+	Payload  map[string]interface{} `json:"payload"`  // 原始 POST 请求体
+	Response interface{}            `json:"response"` // API 响应
+}
+
+// PostOrdersResult 批量提交订单的结果
+type PostOrdersResult struct {
+	Payload  []map[string]interface{} `json:"payload"`  // 原始 POST 请求体
+	Response interface{}              `json:"response"` // API 响应
+}
+

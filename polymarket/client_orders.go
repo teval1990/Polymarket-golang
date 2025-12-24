@@ -7,7 +7,8 @@ import (
 
 // PostOrder 提交订单
 // 需要L2认证
-func (c *ClobClient) PostOrder(order *SignedOrder, orderType OrderType) (interface{}, error) {
+// 返回 PostOrderResult，包含原始 Payload 和 API 响应
+func (c *ClobClient) PostOrder(order *SignedOrder, orderType OrderType) (*PostOrderResult, error) {
 	if err := c.assertLevel2Auth(); err != nil {
 		return nil, err
 	}
@@ -31,12 +32,21 @@ func (c *ClobClient) PostOrder(order *SignedOrder, orderType OrderType) (interfa
 		return nil, err
 	}
 
-	return c.httpClient.Post(PostOrder, headers, bodyStr)
+	resp, err := c.httpClient.Post(PostOrder, headers, bodyStr)
+	if err != nil {
+		return nil, err
+	}
+
+	return &PostOrderResult{
+		Payload:  body,
+		Response: resp,
+	}, nil
 }
 
 // PostOrders 批量提交订单
 // 需要L2认证
-func (c *ClobClient) PostOrders(args []PostOrdersArgs) (interface{}, error) {
+// 返回 PostOrdersResult，包含原始 Payload 和 API 响应
+func (c *ClobClient) PostOrders(args []PostOrdersArgs) (*PostOrdersResult, error) {
 	if err := c.assertLevel2Auth(); err != nil {
 		return nil, err
 	}
@@ -64,7 +74,15 @@ func (c *ClobClient) PostOrders(args []PostOrdersArgs) (interface{}, error) {
 		return nil, err
 	}
 
-	return c.httpClient.Post(PostOrders, headers, bodyStr)
+	resp, err := c.httpClient.Post(PostOrders, headers, bodyStr)
+	if err != nil {
+		return nil, err
+	}
+
+	return &PostOrdersResult{
+		Payload:  body,
+		Response: resp,
+	}, nil
 }
 
 // Cancel 取消订单

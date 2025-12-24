@@ -255,7 +255,8 @@ func (c *ClobClient) CreateMarketOrder(orderArgs *MarketOrderArgs, options *Part
 
 // CreateAndPostOrder 创建并提交订单（便捷方法）
 // 支持通过 options.OrderType 指定订单类型：GTC, FOK, GTD, FAK（默认 GTC）
-func (c *ClobClient) CreateAndPostOrder(orderArgs *OrderArgs, options *PartialCreateOrderOptions) (interface{}, error) {
+// 返回 PostOrderResult，包含原始 Payload 和 API 响应
+func (c *ClobClient) CreateAndPostOrder(orderArgs *OrderArgs, options *PartialCreateOrderOptions) (*PostOrderResult, error) {
 	order, err := c.CreateOrder(orderArgs, options)
 	if err != nil {
 		return nil, err
