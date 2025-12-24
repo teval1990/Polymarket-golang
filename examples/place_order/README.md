@@ -123,3 +123,31 @@ go run main.go
 chmod +x run.sh
 ./run.sh
 ```
+
+## 原始订单模式（跳过价格舍入）
+
+默认情况下，SDK 会从 API 获取市场的 `tick_size` 并对价格进行舍入。例如，如果市场的 tick_size 是 `0.01`，价格 `0.567` 会被舍入到 `0.57`。
+
+如果你想跳过这个步骤，直接使用你指定的精确价格，可以在代码中使用 `RawOrder` 选项：
+
+```go
+// 使用 RawOrder 模式跳过 tick_size 获取和价格舍入
+negRisk := false
+options := &polymarket.PartialCreateOrderOptions{
+    RawOrder: true,     // 跳过 tick_size 和舍入
+    NegRisk:  &negRisk, // 可选，不提供时会自动获取
+}
+
+order, err := client.CreateOrder(orderArgs, options)
+// 或者
+result, err := client.CreateAndPostOrder(orderArgs, options)
+```
+
+### 对比示例
+
+| 模式 | 输入价格 | tick_size=0.01 时的实际价格 |
+|------|----------|---------------------------|
+| 标准模式 | 0.567 | 0.57（舍入到2位小数） |
+| 原始模式 | 0.567 | 0.567（保持原始值） |
+
+**注意**：使用原始模式时，如果价格精度超出市场支持的 tick_size，订单可能会被交易所拒绝。

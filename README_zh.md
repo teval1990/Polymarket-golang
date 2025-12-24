@@ -151,6 +151,33 @@ if err != nil {
 fmt.Printf("订单已提交: %+v\n", result)
 ```
 
+### 原始订单模式（跳过价格舍入）
+
+默认情况下，`CreateOrder` 会从 API 获取市场的 `tick_size` 并对价格进行舍入。如果你想跳过这个步骤，直接使用你指定的精确价格，可以使用 `RawOrder` 选项：
+
+```go
+orderArgs := &polymarket.OrderArgs{
+    TokenID:    "token-id",
+    Price:      0.567,  // 将直接使用此值，不会被舍入
+    Size:       100.0,
+    Side:       "BUY",
+    Expiration: 0,
+}
+
+// 使用 RawOrder 模式跳过 tick_size 获取和价格舍入
+negRisk := false
+options := &polymarket.PartialCreateOrderOptions{
+    RawOrder: true,     // 跳过 tick_size 和舍入
+    NegRisk:  &negRisk, // 可选，不提供时会自动获取
+}
+
+order, err := client.CreateOrder(orderArgs, options)
+// 或者
+result, err := client.CreateAndPostOrder(orderArgs, options)
+```
+
+**注意**：使用 `RawOrder: true` 时，如果价格精度超出市场支持的 tick_size，订单可能会被交易所拒绝。
+
 ## 项目结构
 
 ```

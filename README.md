@@ -151,6 +151,33 @@ if err != nil {
 fmt.Printf("Order posted: %+v\n", result)
 ```
 
+### Raw Order Mode (Skip Price Rounding)
+
+By default, `CreateOrder` fetches the market's `tick_size` and rounds the price accordingly. If you want to skip this and use the exact price you specified, use the `RawOrder` option:
+
+```go
+orderArgs := &polymarket.OrderArgs{
+    TokenID:    "token-id",
+    Price:      0.567,  // Will be used as-is, not rounded
+    Size:       100.0,
+    Side:       "BUY",
+    Expiration: 0,
+}
+
+// Use RawOrder mode to skip tick_size fetching and price rounding
+negRisk := false
+options := &polymarket.PartialCreateOrderOptions{
+    RawOrder: true,     // Skip tick_size and rounding
+    NegRisk:  &negRisk, // Optional, will be fetched if not provided
+}
+
+order, err := client.CreateOrder(orderArgs, options)
+// or
+result, err := client.CreateAndPostOrder(orderArgs, options)
+```
+
+**Note**: When using `RawOrder: true`, the order may be rejected by the exchange if the price precision exceeds the market's supported tick_size.
+
 ## Project Structure
 
 ```
