@@ -134,9 +134,10 @@ type CreateOrderOptions struct {
 
 // PartialCreateOrderOptions 部分创建订单选项
 type PartialCreateOrderOptions struct {
-	TickSize *TickSize `json:"tick_size,omitempty"`
-	NegRisk  *bool     `json:"neg_risk,omitempty"`
-	RawOrder bool      `json:"raw_order,omitempty"` // 跳过 tick_size 获取和价格舍入，直接使用原始值
+	TickSize  *TickSize  `json:"tick_size,omitempty"`
+	NegRisk   *bool      `json:"neg_risk,omitempty"`
+	RawOrder  bool       `json:"raw_order,omitempty"`  // 跳过 tick_size 获取和价格舍入，直接使用原始值
+	OrderType *OrderType `json:"order_type,omitempty"` // 订单类型：GTC, FOK, GTD, FAK（默认 GTC）
 }
 
 // RoundConfig 舍入配置

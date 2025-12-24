@@ -178,6 +178,33 @@ result, err := client.CreateAndPostOrder(orderArgs, options)
 
 **注意**：使用 `RawOrder: true` 时，如果价格精度超出市场支持的 tick_size，订单可能会被交易所拒绝。
 
+### 订单类型
+
+`CreateAndPostOrder` 支持通过 `OrderType` 选项指定不同的订单类型：
+
+```go
+// FAK 订单（Fill And Kill）- 部分成交后取消剩余
+orderType := polymarket.OrderTypeFAK
+options := &polymarket.PartialCreateOrderOptions{
+    OrderType: &orderType,
+}
+result, err := client.CreateAndPostOrder(orderArgs, options)
+
+// FOK 订单（Fill Or Kill）- 全部成交或取消
+orderType := polymarket.OrderTypeFOK
+options := &polymarket.PartialCreateOrderOptions{
+    OrderType: &orderType,
+}
+result, err := client.CreateAndPostOrder(orderArgs, options)
+```
+
+| 订单类型 | 说明 |
+|----------|------|
+| `GTC` | Good Till Cancel - 直到取消（默认） |
+| `FOK` | Fill Or Kill - 全部成交或取消 |
+| `FAK` | Fill And Kill - 部分成交后取消剩余 |
+| `GTD` | Good Till Date - 直到指定时间（需要设置 `Expiration`） |
+
 ## 项目结构
 
 ```

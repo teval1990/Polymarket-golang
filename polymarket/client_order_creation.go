@@ -266,12 +266,20 @@ func (c *ClobClient) CreateMarketOrder(orderArgs *MarketOrderArgs, options *Part
 }
 
 // CreateAndPostOrder 创建并提交订单（便捷方法）
+// 支持通过 options.OrderType 指定订单类型：GTC, FOK, GTD, FAK（默认 GTC）
 func (c *ClobClient) CreateAndPostOrder(orderArgs *OrderArgs, options *PartialCreateOrderOptions) (interface{}, error) {
 	order, err := c.CreateOrder(orderArgs, options)
 	if err != nil {
 		return nil, err
 	}
-	return c.PostOrder(order, OrderTypeGTC)
+
+	// 确定订单类型，默认为 GTC
+	orderType := OrderTypeGTC
+	if options != nil && options.OrderType != nil {
+		orderType = *options.OrderType
+	}
+
+	return c.PostOrder(order, orderType)
 }
 
 // CalculateMarketPrice 计算市价

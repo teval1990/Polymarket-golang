@@ -178,6 +178,33 @@ result, err := client.CreateAndPostOrder(orderArgs, options)
 
 **Note**: When using `RawOrder: true`, the order may be rejected by the exchange if the price precision exceeds the market's supported tick_size.
 
+### Order Types
+
+`CreateAndPostOrder` supports different order types via the `OrderType` option:
+
+```go
+// FAK order (Fill And Kill) - partial fill, cancel remaining
+orderType := polymarket.OrderTypeFAK
+options := &polymarket.PartialCreateOrderOptions{
+    OrderType: &orderType,
+}
+result, err := client.CreateAndPostOrder(orderArgs, options)
+
+// FOK order (Fill Or Kill) - full fill or cancel
+orderType := polymarket.OrderTypeFOK
+options := &polymarket.PartialCreateOrderOptions{
+    OrderType: &orderType,
+}
+result, err := client.CreateAndPostOrder(orderArgs, options)
+```
+
+| Order Type | Description |
+|------------|-------------|
+| `GTC` | Good Till Cancel - remains until cancelled (default) |
+| `FOK` | Fill Or Kill - full fill or cancel entirely |
+| `FAK` | Fill And Kill - partial fill, cancel remaining |
+| `GTD` | Good Till Date - expires at specified time (requires `Expiration`) |
+
 ## Project Structure
 
 ```
