@@ -7,9 +7,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/0xNetuser/Polymarket-golang/polymarket"
-	"github.com/0xNetuser/Polymarket-golang/polymarket/web3"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/teval1990/Polymarket-golang/polymarket"
+	"github.com/teval1990/Polymarket-golang/polymarket/web3"
 )
 
 func main() {
@@ -187,4 +187,3 @@ func getSignatureTypeName(sigType int) string {
 		return "Unknown"
 	}
 }
-

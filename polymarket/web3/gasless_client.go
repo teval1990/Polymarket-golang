@@ -14,7 +14,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 
-	"github.com/0xNetuser/Polymarket-golang/polymarket"
+	"github.com/teval1990/Polymarket-golang/polymarket"
 )
 
 // PolymarketGaslessWeb3Client Polymarket Web3客户端（无gas交易）

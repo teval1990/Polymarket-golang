@@ -1,7 +1,7 @@
 package polymarket
 
 import (
-	"github.com/0xNetuser/Polymarket-golang/polymarket/rfq"
+	"github.com/teval1990/Polymarket-golang/polymarket/rfq"
 )
 
 // CreateRfqRequest 创建RFQ请求（便捷方法）
@@ -53,4 +53,3 @@ func (c *ClobClient) ApproveRfqOrder(params *rfq.ApproveOrderParams) (interface{
 func (c *ClobClient) GetRfqConfig() (interface{}, error) {
 	return c.rfq.GetRfqConfig()
 }
-

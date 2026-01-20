@@ -4,9 +4,7 @@
 
 Polymarket CLOB（中央限价订单簿）API 的 Go 语言 SDK，完整实现了 [py-clob-client](https://github.com/Polymarket/py-clob-client) 的所有核心功能。
 
-
-Follow at X:  @netu5er
-
+Follow at X: @netu5er
 
 ## 特性
 
@@ -21,7 +19,7 @@ Follow at X:  @netu5er
 ## 安装
 
 ```bash
-go get github.com/0xNetuser/Polymarket-golang
+go get github.com/teval1990/Polymarket-golang
 ```
 
 ## 快速开始
@@ -33,7 +31,7 @@ package main
 
 import (
     "fmt"
-    "github.com/0xNetuser/Polymarket-golang/polymarket"
+    "github.com/teval1990/Polymarket-golang/polymarket"
 )
 
 func main() {
@@ -201,12 +199,12 @@ options := &polymarket.PartialCreateOrderOptions{
 result, err := client.CreateAndPostOrder(orderArgs, options)
 ```
 
-| 订单类型 | 说明 |
-|----------|------|
-| `GTC` | Good Till Cancel - 直到取消（默认） |
-| `FOK` | Fill Or Kill - 全部成交或取消 |
-| `FAK` | Fill And Kill - 部分成交后取消剩余 |
-| `GTD` | Good Till Date - 直到指定时间（需要设置 `Expiration`） |
+| 订单类型 | 说明                                                   |
+| -------- | ------------------------------------------------------ |
+| `GTC`    | Good Till Cancel - 直到取消（默认）                    |
+| `FOK`    | Fill Or Kill - 全部成交或取消                          |
+| `FAK`    | Fill And Kill - 部分成交后取消剩余                     |
+| `GTD`    | Good Till Date - 直到指定时间（需要设置 `Expiration`） |
 
 ### Post Only 订单
 
@@ -248,7 +246,7 @@ SDK 包含两个 Web3 客户端用于链上操作：
 ### PolymarketWeb3Client（支付 Gas）
 
 ```go
-import "github.com/0xNetuser/Polymarket-golang/polymarket/web3"
+import "github.com/teval1990/Polymarket-golang/polymarket/web3"
 
 // 创建 Web3 客户端（需要支付 gas）
 client, err := web3.NewPolymarketWeb3Client(
@@ -338,6 +336,7 @@ polymarket/
 ## 已实现功能
 
 ### ✅ 核心功能
+
 - [x] 基础类型定义（所有 py-clob-client 的类型）
 - [x] 签名器 - EIP-712 和 HMAC 签名
 - [x] L0/L1/L2 认证头生成
@@ -345,6 +344,7 @@ polymarket/
 - [x] 客户端基础结构（支持三种模式）
 
 ### ✅ API 方法
+
 - [x] **健康检查**: `GetOK()`, `GetServerTime()`
 - [x] **API 密钥管理**: `CreateAPIKey()`, `DeriveAPIKey()`, `CreateOrDeriveAPIKey()`, `GetAPIKeys()`, `DeleteAPIKey()`
 - [x] **市场数据**: `GetMidpoint()`, `GetMidpoints()`, `GetPrice()`, `GetPrices()`, `GetSpread()`, `GetSpreads()`
@@ -353,6 +353,7 @@ polymarket/
 - [x] **最后成交价**: `GetLastTradePrice()`, `GetLastTradesPrices()`
 
 ### ✅ 订单管理
+
 - [x] **订单提交**: `PostOrder()`, `PostOrders()`, `PostOrderWithOptions()`（支持 PostOnly）
 - [x] **订单取消**: `Cancel()`, `CancelOrders()`, `CancelAll()`, `CancelMarketOrders()`
 - [x] **订单查询**: `GetOrders()`, `GetOrder()`
@@ -362,18 +363,21 @@ polymarket/
 - [x] **心跳**: `PostHeartbeat()` - 保持订单活跃（10秒无心跳自动取消订单）
 
 ### ✅ 订单构建和创建
+
 - [x] 订单构建器完整实现（使用 go-order-utils）
 - [x] 订单创建方法：`CreateOrder()`, `CreateMarketOrder()`, `CreateAndPostOrder()`
 - [x] 市价计算：`CalculateMarketPrice()`
 - [x] 舍入配置和金额计算
 
 ### ✅ 只读 API 密钥管理
+
 - [x] `CreateReadonlyAPIKey()` - 创建只读 API 密钥
 - [x] `GetReadonlyAPIKeys()` - 获取只读 API 密钥列表
 - [x] `DeleteReadonlyAPIKey()` - 删除只读 API 密钥
 - [x] `ValidateReadonlyAPIKey()` - 验证只读 API 密钥
 
 ### ✅ RFQ 客户端功能
+
 - [x] `CreateRfqRequest()` - 创建 RFQ 请求
 - [x] `CancelRfqRequest()` - 取消 RFQ 请求
 - [x] `GetRfqRequests()` - 获取 RFQ 请求列表
@@ -387,6 +391,7 @@ polymarket/
 - [x] `GetRfqConfig()` - 获取 RFQ 配置
 
 ### ✅ Web3 客户端功能
+
 - [x] `PolymarketWeb3Client` - 链上交易（支付 gas）
   - [x] 支持 EOA、PolyProxy 和 Safe 钱包
   - [x] 余额查询（POL、USDC、条件代币）
@@ -399,6 +404,7 @@ polymarket/
   - [x] **需要 Builder 凭证**（从 Polymarket 获取）
 
 ### ✅ 其他功能
+
 - [x] 订单评分：`IsOrderScoring()`, `AreOrdersScoring()`
 - [x] 市场查询：`GetMarkets()`, `GetSimplifiedMarkets()`, `GetSamplingMarkets()`, `GetSamplingSimplifiedMarkets()`
 - [x] 市场详情：`GetMarket()`, `GetMarketTradesEvents()`
@@ -408,20 +414,20 @@ polymarket/
 
 ## 功能对比
 
-| 功能 | py-clob-client | Go SDK | 状态 |
-|------|---------------|--------|------|
-| 基础客户端 | ✅ | ✅ | 完成 |
-| L0/L1/L2 认证 | ✅ | ✅ | 完成 |
-| API 密钥管理 | ✅ | ✅ | 完成 |
-| 市场数据查询 | ✅ | ✅ | 完成 |
-| 订单簿查询 | ✅ | ✅ | 完成 |
-| 订单提交/取消 | ✅ | ✅ | 完成 |
-| 订单查询 | ✅ | ✅ | 完成 |
-| 交易查询 | ✅ | ✅ | 完成 |
-| 余额查询 | ✅ | ✅ | 完成 |
-| 订单构建器 | ✅ | ✅ | 完整实现 |
-| RFQ 功能 | ✅ | ✅ | 完整实现 |
-| 只读 API 密钥 | ✅ | ✅ | 完整实现 |
+| 功能          | py-clob-client | Go SDK | 状态     |
+| ------------- | -------------- | ------ | -------- |
+| 基础客户端    | ✅             | ✅     | 完成     |
+| L0/L1/L2 认证 | ✅             | ✅     | 完成     |
+| API 密钥管理  | ✅             | ✅     | 完成     |
+| 市场数据查询  | ✅             | ✅     | 完成     |
+| 订单簿查询    | ✅             | ✅     | 完成     |
+| 订单提交/取消 | ✅             | ✅     | 完成     |
+| 订单查询      | ✅             | ✅     | 完成     |
+| 交易查询      | ✅             | ✅     | 完成     |
+| 余额查询      | ✅             | ✅     | 完成     |
+| 订单构建器    | ✅             | ✅     | 完整实现 |
+| RFQ 功能      | ✅             | ✅     | 完整实现 |
+| 只读 API 密钥 | ✅             | ✅     | 完整实现 |
 
 ## 环境变量
 
@@ -450,4 +456,3 @@ polymarket/
 ## 贡献
 
 欢迎贡献！请随时提交 Pull Request。
-

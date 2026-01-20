@@ -4,9 +4,7 @@
 
 A comprehensive Go SDK for the Polymarket CLOB (Central Limit Order Book) API, fully implementing all core features from [py-clob-client](https://github.com/Polymarket/py-clob-client).
 
-Follow at X:  @netu5er
-
-
+Follow at X: @netu5er
 
 ## Features
 
@@ -21,7 +19,7 @@ Follow at X:  @netu5er
 ## Installation
 
 ```bash
-go get github.com/0xNetuser/Polymarket-golang
+go get github.com/teval1990/Polymarket-golang
 ```
 
 ## Quick Start
@@ -33,7 +31,7 @@ package main
 
 import (
     "fmt"
-    "github.com/0xNetuser/Polymarket-golang/polymarket"
+    "github.com/teval1990/Polymarket-golang/polymarket"
 )
 
 func main() {
@@ -201,12 +199,12 @@ options := &polymarket.PartialCreateOrderOptions{
 result, err := client.CreateAndPostOrder(orderArgs, options)
 ```
 
-| Order Type | Description |
-|------------|-------------|
-| `GTC` | Good Till Cancel - remains until cancelled (default) |
-| `FOK` | Fill Or Kill - full fill or cancel entirely |
-| `FAK` | Fill And Kill - partial fill, cancel remaining |
-| `GTD` | Good Till Date - expires at specified time (requires `Expiration`) |
+| Order Type | Description                                                        |
+| ---------- | ------------------------------------------------------------------ |
+| `GTC`      | Good Till Cancel - remains until cancelled (default)               |
+| `FOK`      | Fill Or Kill - full fill or cancel entirely                        |
+| `FAK`      | Fill And Kill - partial fill, cancel remaining                     |
+| `GTD`      | Good Till Date - expires at specified time (requires `Expiration`) |
 
 ### Post Only Orders
 
@@ -248,7 +246,7 @@ The SDK includes two Web3 clients for on-chain operations:
 ### PolymarketWeb3Client (Pay Gas)
 
 ```go
-import "github.com/0xNetuser/Polymarket-golang/polymarket/web3"
+import "github.com/teval1990/Polymarket-golang/polymarket/web3"
 
 // Create Web3 client (pays gas for transactions)
 client, err := web3.NewPolymarketWeb3Client(
@@ -338,6 +336,7 @@ polymarket/
 ## Implemented Features
 
 ### ✅ Core Features
+
 - [x] Basic type definitions (all py-clob-client types)
 - [x] Signer - EIP-712 and HMAC signing
 - [x] L0/L1/L2 authentication header generation
@@ -345,6 +344,7 @@ polymarket/
 - [x] Client base structure (supports three modes)
 
 ### ✅ API Methods
+
 - [x] **Health Check**: `GetOK()`, `GetServerTime()`
 - [x] **API Key Management**: `CreateAPIKey()`, `DeriveAPIKey()`, `CreateOrDeriveAPIKey()`, `GetAPIKeys()`, `DeleteAPIKey()`
 - [x] **Market Data**: `GetMidpoint()`, `GetMidpoints()`, `GetPrice()`, `GetPrices()`, `GetSpread()`, `GetSpreads()`
@@ -353,6 +353,7 @@ polymarket/
 - [x] **Last Trade Price**: `GetLastTradePrice()`, `GetLastTradesPrices()`
 
 ### ✅ Order Management
+
 - [x] **Order Submission**: `PostOrder()`, `PostOrders()`, `PostOrderWithOptions()` (with PostOnly support)
 - [x] **Order Cancellation**: `Cancel()`, `CancelOrders()`, `CancelAll()`, `CancelMarketOrders()`
 - [x] **Order Query**: `GetOrders()`, `GetOrder()`
@@ -362,18 +363,21 @@ polymarket/
 - [x] **Heartbeat**: `PostHeartbeat()` - Keep orders alive (auto-cancel after 10s without heartbeat)
 
 ### ✅ Order Building and Creation
+
 - [x] Complete order builder implementation (using go-order-utils)
 - [x] Order creation methods: `CreateOrder()`, `CreateMarketOrder()`, `CreateAndPostOrder()`
 - [x] Market price calculation: `CalculateMarketPrice()`
 - [x] Rounding configuration and amount calculation
 
 ### ✅ Readonly API Key Management
+
 - [x] `CreateReadonlyAPIKey()` - Create readonly API key
 - [x] `GetReadonlyAPIKeys()` - Get readonly API key list
 - [x] `DeleteReadonlyAPIKey()` - Delete readonly API key
 - [x] `ValidateReadonlyAPIKey()` - Validate readonly API key
 
 ### ✅ RFQ Client Features
+
 - [x] `CreateRfqRequest()` - Create RFQ request
 - [x] `CancelRfqRequest()` - Cancel RFQ request
 - [x] `GetRfqRequests()` - Get RFQ request list
@@ -387,6 +391,7 @@ polymarket/
 - [x] `GetRfqConfig()` - Get RFQ configuration
 
 ### ✅ Web3 Client Features
+
 - [x] `PolymarketWeb3Client` - On-chain transactions (pays gas)
   - [x] Supports EOA, PolyProxy, and Safe wallets
   - [x] Balance queries (POL, USDC, conditional tokens)
@@ -399,6 +404,7 @@ polymarket/
   - [x] **Requires Builder credentials** (obtained from Polymarket)
 
 ### ✅ Other Features
+
 - [x] Order scoring: `IsOrderScoring()`, `AreOrdersScoring()`
 - [x] Market queries: `GetMarkets()`, `GetSimplifiedMarkets()`, `GetSamplingMarkets()`, `GetSamplingSimplifiedMarkets()`
 - [x] Market details: `GetMarket()`, `GetMarketTradesEvents()`
@@ -408,20 +414,20 @@ polymarket/
 
 ## Feature Comparison
 
-| Feature | py-clob-client | Go SDK | Status |
-|---------|---------------|--------|--------|
-| Basic client | ✅ | ✅ | Complete |
-| L0/L1/L2 auth | ✅ | ✅ | Complete |
-| API key management | ✅ | ✅ | Complete |
-| Market data queries | ✅ | ✅ | Complete |
-| Order book queries | ✅ | ✅ | Complete |
-| Order submit/cancel | ✅ | ✅ | Complete |
-| Order queries | ✅ | ✅ | Complete |
-| Trade queries | ✅ | ✅ | Complete |
-| Balance queries | ✅ | ✅ | Complete |
-| Order builder | ✅ | ✅ | Fully implemented |
-| RFQ features | ✅ | ✅ | Fully implemented |
-| Readonly API keys | ✅ | ✅ | Fully implemented |
+| Feature             | py-clob-client | Go SDK | Status            |
+| ------------------- | -------------- | ------ | ----------------- |
+| Basic client        | ✅             | ✅     | Complete          |
+| L0/L1/L2 auth       | ✅             | ✅     | Complete          |
+| API key management  | ✅             | ✅     | Complete          |
+| Market data queries | ✅             | ✅     | Complete          |
+| Order book queries  | ✅             | ✅     | Complete          |
+| Order submit/cancel | ✅             | ✅     | Complete          |
+| Order queries       | ✅             | ✅     | Complete          |
+| Trade queries       | ✅             | ✅     | Complete          |
+| Balance queries     | ✅             | ✅     | Complete          |
+| Order builder       | ✅             | ✅     | Fully implemented |
+| RFQ features        | ✅             | ✅     | Fully implemented |
+| Readonly API keys   | ✅             | ✅     | Fully implemented |
 
 ## Environment Variables
 
