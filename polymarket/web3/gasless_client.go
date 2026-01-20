@@ -67,6 +67,8 @@ func (c *PolymarketGaslessWeb3Client) Execute(to common.Address, data []byte, op
 
 	switch c.signatureType {
 	case SignatureTypePolyProxy:
+		// add by teval 2026-01-21
+		to = ProxyFactoryAddress
 		body, err = c.buildProxyRelayTransaction(to, data, metadata)
 	case SignatureTypeSafe:
 		body, err = c.buildSafeRelayTransaction(to, data, metadata)
@@ -142,9 +144,41 @@ func (c *PolymarketGaslessWeb3Client) getRelayNonce(walletType string) (int, err
 	return nonce, nil
 }
 
+func (c *PolymarketGaslessWeb3Client) getRelay(walletType string) (string, int, error) {
+	url := fmt.Sprintf("%s/relay-payload?address=%s&type=%s", c.relayConfig.RelayURL, c.GetBaseAddress().Hex(), walletType)
+
+	resp, err := c.httpClient.Get(url)
+	if err != nil {
+		return "", 0, fmt.Errorf("failed to get nonce: %w", err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		body, _ := io.ReadAll(resp.Body)
+		return "", 0, fmt.Errorf("failed to get nonce: %s", string(body))
+	}
+
+	var result struct {
+		Address string `json:"address"`
+		Nonce   string `json:"nonce"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		return "", 0, fmt.Errorf("failed to decode nonce response: %w", err)
+	}
+
+	nonce, err := strconv.Atoi(result.Nonce)
+	if err != nil {
+		return "", 0, fmt.Errorf("invalid nonce value: %w", err)
+	}
+
+	return result.Address, nonce, nil
+}
+
 // buildProxyRelayTransaction 构建Proxy中继交易
 func (c *PolymarketGaslessWeb3Client) buildProxyRelayTransaction(to common.Address, data []byte, metadata string) (*RelaySubmitRequest, error) {
-	proxyNonce, err := c.getRelayNonce("PROXY")
+	// modify by Teval 2026-01-21
+	// proxyNonce, err := c.getRelayNonce("PROXY")
+	relayAddress, proxyNonce, err := c.getRelay("PROXY")
 	if err != nil {
 		return nil, err
 	}
@@ -190,7 +224,7 @@ func (c *PolymarketGaslessWeb3Client) buildProxyRelayTransaction(to common.Addre
 		gasLimit,
 		strconv.Itoa(proxyNonce),
 		c.relayConfig.RelayHub,
-		c.relayConfig.RelayAddress,
+		relayAddress, // c.relayConfig.RelayAddress,
 	)
 
 	structHash := Keccak256Hash(structBytes)
@@ -503,4 +537,3 @@ func (c *PolymarketGaslessWeb3Client) ConvertPositions(questionIDs []string, amo
 
 	return c.Execute(to, data, "Convert Positions", "convert")
 }
-
