@@ -1,11 +1,9 @@
 module github.com/teval1990/Polymarket-golang
 
-go 1.24.0
-
-toolchain go1.24.9
+go 1.25.5
 
 require (
-	github.com/ethereum/go-ethereum v1.16.7
+	github.com/ethereum/go-ethereum v1.16.8
 	github.com/polymarket/go-order-utils v1.22.6
 )
 
